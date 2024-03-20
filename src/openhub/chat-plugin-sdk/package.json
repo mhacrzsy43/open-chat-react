@@ -1,0 +1,53 @@
+{
+  "name": "@lobehub/chat-plugin-sdk",
+  "version": "1.32.3",
+  "description": "Lobe Chat Plugin SDK, help you to build an amazing chat plugin for Lobe Chat",
+  "keywords": [
+    "lobehub",
+    "sdk",
+    "chatgpt",
+    "openai",
+    "plugin",
+    "chat-plugin"
+  ],
+  "homepage": "https://github.com/lobehub/chat-plugin-sdk",
+  "bugs": {
+    "url": "https://github.com/lobehub/chat-plugin-sdk/issues/new"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lobehub/chat-plugin-sdk.git"
+  },
+  "license": "MIT",
+  "author": "LobeHub <i@lobehub.com>",
+  "sideEffects": false,
+  "main": "./lib/index.js",
+  "module": "./es/index.js",
+  "types": "./lib/index.d.ts",
+  "files": [
+    "lib",
+    "es",
+    "client.d.ts",
+    "client.js",
+    "openapi.d.ts",
+    "openapi.js",
+    "schema.json"
+  ],
+  "dependencies": {
+    "@apidevtools/swagger-parser": "^10.1.0",
+    "@babel/runtime": "^7.23.2",
+    "@types/json-schema": "^7.0.14",
+    "openapi-jsonschema-parameters": "^12.1.3",
+    "openapi-types": "^12.1.3",
+    "swagger-client": "^3.24.6",
+    "zod": "^3.22.4"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  }
+}
