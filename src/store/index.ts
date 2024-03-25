@@ -1,53 +1,67 @@
-/* eslint-disable no-unused-vars */
-
-// zustand 采用观察者模式，对组件进行订阅更新，
-// 因此不需要在最外层提供一个类似redux的Provider包裹层
-import { message } from 'antd';
+// 引入必要的库和中间件
 import create from 'zustand';
+import { persist } from 'zustand/middleware';
+import { message } from 'antd';
 
+// 引入API函数
 import { getFriendList, login } from '@/api/user';
 
-// 数据持久化，会缓存到 storage
-// import { persist } from 'zustand/middleware';
-// 模拟请求延迟
+import { IChatItemProps } from 'react-chat-elements';
 import { StateProps } from './type';
 
-// 创建 store
-const useStore = create<StateProps>((set, get) => ({
-  user: null,
-  friendList: null,
-  loading: false,
-  editItem: undefined,
-  login: async (val) => {
-    get().setLoading(true);
-    const res = await login(val);
-    get().setLoading(false);
-    console.log('login:', res);
-    if (res.code === 0) {
-      set({ user: res.data });
-      localStorage.setItem('token', res.data.token);
-    } else {
-      message.error(res.message);
-    }
-  },
-  setUser: async (val: any) => {
-    set({ user: val });
-  },
-  setLoading: (val) => set({ loading: val }),
-  setEditItem: (params: any) => set({ editItem: params }),
-  // 获取列表
-  getFriendList: async () => {
-    get().setLoading(true);
-    const res = await getFriendList();
-    get().setLoading(false);
-    console.log('friendList:', res);
-    if (res.code === 0) {
-      set({ friendList: res.rows });
-    } else {
-      message.error(res.message);
-    }
-  },
-}));
+// 使用persist中间件创建store
+const useStore = create<StateProps>(persist(
+  // 设置函数
+  (set, get) => ({
+    user: null,
+    friendList: null,
+    loading: false,
+    currChat: null,
 
-// 暴露单一实例 useStore
+    // 登录操作
+    login: async (val) => {
+      get().setLoading(true);
+      const res = await login(val);
+      get().setLoading(false);
+      console.log('login:', res);
+      if (res.code === 0) {
+        set({ user: res.data });
+        localStorage.setItem('token', res.data.token);
+      } else {
+        message.error(res.message);
+      }
+    },
+
+    // 设置用户信息
+    setUser: (val) => {
+      set({ user: val });
+    },
+
+    // 设置加载状态
+    setLoading: (val) => set({ loading: val }),
+
+    // 获取好友列表
+    getFriendList: async () => {
+      get().setLoading(true);
+      const res = await getFriendList();
+      get().setLoading(false);
+      console.log('friendList:', res);
+      if (res.code === 0) {
+        set({ friendList: res.rows });
+      } else {
+        message.error(res.message);
+      }
+    },
+
+    // 设置当前聊天
+    setCurrChat: (currChat: IChatItemProps) => {
+      set({currChat: currChat})
+    },
+  }),
+  {
+    name: 'chat-app-store', // 在localStorage中用于保存数据的key
+    getStorage: () => localStorage, // 指定使用localStorage
+  }
+));
+
 export default useStore;

@@ -9,6 +9,7 @@ import classNames from 'classnames'
 
 import { MdVideoCall, MdVolumeOff, MdVolumeUp } from 'react-icons/md'
 import { IChatItemProps } from '../type'
+import useStore from '@/store'
 
 const ChatItem: React.FC<IChatItemProps> = ({
   avatarFlexible = false,
@@ -21,6 +22,7 @@ const ChatItem: React.FC<IChatItemProps> = ({
 }) => {
   const [onHoverTool, setOnHoverTool] = useState(false)
   const [onDrag, setOnDrag] = useState(false)
+  const {currChat} =  useStore((state) => ({ ...state }));
 
   useEffect(() => {
     props.setDragStates?.(setOnDrag)
@@ -72,7 +74,7 @@ const ChatItem: React.FC<IChatItemProps> = ({
       onClick={handleOnClick}
       onContextMenu={props.onContextMenu}
     >
-      <div className='rce-citem' onDragOver={onDragOver} onDragEnter={onDragEnter} onDragLeave={onDragLeave} onDrop={onDrop}>
+      <div className='rce-citem' style={{backgroundColor: currChat?.id === props.id ? 'wheat' : 'white'}} onDragOver={onDragOver} onDragEnter={onDragEnter} onDragLeave={onDragLeave} onDrop={onDrop}>
         {!!props.onDragComponent && onDrag && props.onDragComponent(props.id)}
         {((onDrag && !props.onDragComponent) || !onDrag) && [
           <div

@@ -1,117 +1,78 @@
-import { useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import Button from '../../components/Button/Button'
 import Input from '../../components/Input/Input'
 import MessageList from '../../components/MessageList/MessageList'
 import { token } from '../../utils/common'
-import {
-  audioMessage,
-  fileMessage,
-  locationMessage,
-  meetingLinkMessage,
-  meetingMessage,
-  photoMessage,
-  spotifyMessage,
-  systemMessage,
-  textMessage,
-  videoMessage,
-} from '../../utils/MessageTypes'
+import useStore from '@/store'
+import useWebSocket, { ReadyState } from 'react-use-websocket'
 
 let clearRef = () => {}
-
-function useForceUpdate() {
-  const [value, setValue] = useState(0)
-  return () => setValue(() => value + 1)
-}
-
 function MessageListExample() {
-  const [messageListArray, setMessageListArray] = useState<any>([])
-  const [status, setStatus] = useState<string>('')
   const messageListReferance = useRef()
   const inputReferance = useRef()
+  const {currChat, user} =  useStore((state) => ({ ...state }));
 
-  const forceUpdate = useForceUpdate()
+  const socketUrl= `ws://localhost:8081/user/sendUserMsg?userId=${user?.userId}`
+  const [messageHistory, setMessageHistory] = useState<any[]>([]);
+  const [text, setText] = useState('')
+  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
 
-  const addMessage = (data: number) => {
-    let Addmtype: string | number = data || token()
-    switch (data) {
-      case 0:
-        Addmtype = 'photo'
-        setStatus('waiting')
-        break
-      case 1:
-        Addmtype = 'file'
-        setStatus('sent')
-        break
-      case 2:
-        Addmtype = 'system'
-        break
-      case 3:
-        Addmtype = 'location'
-        setStatus('received')
-        break
-      case 4:
-        Addmtype = 'spotify'
-        setStatus('waiting')
-        break
-      case 5:
-        Addmtype = 'meeting'
-        setStatus('sent')
-        break
-      case 6:
-        Addmtype = 'video'
-        setStatus('read')
-        break
-      case 7:
-        Addmtype = 'audio'
-        break
-      case 8:
-        Addmtype = 'meetingLink'
-        break
-      default:
-        Addmtype = 'text'
-        setStatus('read')
-        break
+  const getTextMessage = (message: any) => {
+     const textMessage= {
+      type: 'text',
+      id: String(Math.random()),
+      position: token() >= 1 ? 'right' : 'left',
+      text: message.content,
+      focus: true,
+      date: +new Date(),
+      dateString: 'now',
+      forwarded: true,
+      replyButton: true,
+      removeButton: true,
+      status: 'received',
+      statusTitle: token() >= 5 ? 'Desktop' : 'Mobile',
+      notch: true,
+      copiableDate: true,
+      retracted: false,
+      forwardedMessageText: 'Forwarded',
+      className: '',
     }
-
-    setMessageListArray([...messageListArray, randomMessage(Addmtype)])
-    clearRef()
-    forceUpdate()
+    return textMessage
   }
 
-  const randomMessage = (type: string) => {
-    switch (type) {
-      case 'photo':
-        return photoMessage
-      case 'file':
-        return fileMessage
-      case 'system':
-        return systemMessage
-      case 'location':
-        return locationMessage
-      case 'spotify':
-        return spotifyMessage
-      case 'meeting':
-        return meetingMessage
-      case 'video':
-        return videoMessage
-      case 'audio':
-        return audioMessage
-      case 'meetingLink':
-        return meetingLinkMessage
-      case 'text':
-        return textMessage
-      default:
-        break
+  useEffect(() => {
+    console.log(lastMessage, "最后一条消息=====")
+    if (lastMessage !== null) {
+      const message : any = JSON.parse(lastMessage.data)
+      const textMessage = getTextMessage(message) 
+      setMessageHistory((prev) => prev.concat(textMessage));
     }
-  }
+  }, [lastMessage]);
+
+
+  const handleClickSendMessage = useCallback((text) => {
+    if(readyState == ReadyState.OPEN){
+      const message = {
+        fromId: user?.userId + "",
+        targetId: currChat?.id + "",
+        content: text,
+        type: 1
+      }
+      const content = JSON.stringify(message)
+      sendMessage(content)
+      setText('')
+      const textMessage = getTextMessage(message)
+      setMessageHistory((prev) => prev.concat(textMessage));
+    }
+  }, [readyState, user, currChat]);
 
   return (
     <div style={{height: '100%', position: 'relative'}}>
       <MessageList
         className='message-list'
         referance={messageListReferance}
-        dataSource={messageListArray}
+        dataSource={messageHistory}
         lockable={true}
         downButton={true}
         downButtonBadge={10}
@@ -138,16 +99,18 @@ function MessageListExample() {
           referance={inputReferance}
           clear={(clear: any) => (clearRef = clear)}
           maxHeight={50}
+          value={text}
+          onChange={(e: any)=>setText(e.target.value)}
           onKeyPress={(e: any) => {
             if (e.shiftKey && e.charCode === 13) {
               return true
             }
             if (e.charCode === 13) {
               clearRef()
-              addMessage(token())
+              handleClickSendMessage(text)
             }
           }}
-          rightButtons={<Button text='Submit' onClick={() => addMessage(token())} />}
+          rightButtons={<Button text='Submit' onClick={() => handleClickSendMessage(text)} />}
         />
       </div>
     </div>

@@ -20,11 +20,10 @@ const BasicLayout: React.FC<{ route: IRouteConfig }> = ({ route }) => {
   return (
     <Layout>
       <Layout>
-        <MyHeader />
-        <Content style={{ height: 'calc(100vh - 60px)' }}>
-          <div style={{ display: 'flex', height: '100%' }}>
+        <Content>
+          <div style={{ display: 'flex',height: '100%' }}>
             <MyMenu />
-            <div style={{ flex: 1, height: '100%' }}>{renderRoutes(route.routes)}</div>
+            <div style={{ flex: 1, height: 'calc(100% - 60px)'}}> <MyHeader />{renderRoutes(route.routes)}</div>
           </div>
         </Content>
       </Layout>

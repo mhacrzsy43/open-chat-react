@@ -1,3 +1,5 @@
+import { IChatItemProps } from "react-chat-elements";
+
 /* eslint-disable no-unused-vars */
 interface InfoProps {
   userId: string;
@@ -26,18 +28,13 @@ interface UserProps {
 
 // 类型声明
 export type StateProps = {
-  /**@name 用户信息 */
   user: UserProps | null;
-  /**@name 数据列表 */
   friendList: any[] | null;
-  /**@name loading */
+  currChat: IChatItemProps | null;
+  setCurrChat: (currChat: IChatItemProps) => void;
   loading: boolean;
-  /**@name 当前修改项 */
-  editItem: any;
-
   login: (val: any) => void;
   setUser: (val: string) => void;
   setLoading: (val: boolean) => void;
-
   getFriendList: () => void;
 };
