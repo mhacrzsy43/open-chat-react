@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware';
 import { message } from 'antd';
 
 // 引入API函数
-import { getFriendList, login } from '@/api/user';
+import { getFriendList, login, register } from '@/api/user';
 
 import { IChatItemProps } from 'react-chat-elements';
 import { StateProps } from './type';
@@ -29,6 +29,21 @@ const useStore = create<StateProps>(persist(
         localStorage.setItem('token', res.data.token);
       } else {
         message.error(res.message);
+      }
+    },
+
+       // 注册操作
+    register: async (val: { nickname: string; email: string; password: string }) => {
+      get().setLoading(true); // 开始加载
+      const res = await register(val); // 调用注册API
+      get().setLoading(false); // 结束加载
+      console.log('register:', res);
+      if (res.code === 0) {
+        set({ user: res.data }); // 注册成功，设置用户状态
+        localStorage.setItem('token', res.data.token); // 假设注册成功后也返回了token
+        message.success('Registration successful'); // 显示成功消息
+      } else {
+        message.error(res.message); // 显示错误消息
       }
     },
 

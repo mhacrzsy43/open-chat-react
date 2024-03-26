@@ -53,7 +53,7 @@ const layouts: IRouteConfig[] = [
       },
       {
         path: '/user/register',
-        component: 'pages/User/Register',
+        component: React.lazy(() => import('@/pages/User/Register')),
         title: '注册',
       },
     ],
