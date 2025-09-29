@@ -1,16 +1,13 @@
 ==
 
-老大！
-关于您购买的订单号：4764666638874846547 请接收
-Codex1天卡号：sk-6DdBoQyu0vP06BbvjUY3419ioItP13AEQ3G3TR24QoBpSBh4
+Hello~订单：4777658930239846547
+Codex1天卡号：sk-8R6JqG3MdWLaFGNdKoKx7Tn1gF1FPd3ws0l6Aa35THiPDDKK
 配额：1000配额（200次请求）
 使用教程：使用教程：https://ncn2tixwfspn.feishu.cn/wiki/FqCPwuUrpiwJPWkD2P2cXSKInDb
 记录查询：https://code.ppchat.vip/
 带图评论~免费加200次请求
-体验卡有200次请求
+体验卡有300次请求
 升级VIP月卡每日可用高达500次，长期更划算～
+谢谢！再来哦~
 
 ==
-
-
-3yFbBi5wf7kM48TXWP0W8jhn5gT6XGAyCjXsPU1KLj7cw4F0#wFLyBDtFSTk7jaimdFeNOBoZtteFhfo6tCZPcuDPUdY
