@@ -12,3 +12,14 @@ Codex1天卡号：sk-dEXl3Xo1tQBlyg85pJejlftt4FxB0E1vpcSPwdfQADB8fqeF
 满意再来光临哈！
 
 ==
+
+
+使用教程地址：https://www.yuque.com/nicaisadasd/fwextu/scmgisqcmt1c8l9z?singleDoc# 《Claude code key使用教程》
+
+体验卡大概可以200次请求，缓存少的话可能会更多。月卡每天最高可以使用540次请求左右。
+
+技术支持服务：https://www.yuque.com/nicaisadasd/fwextu/vhi3k8g74iid4cbq?singleDoc# 《code技术支持》
+
+
+
+卡号：sk-oWeZccp48hLZeKdaXpPI4Vnt491No3lBZ05BMnq7ozTkTmEs
