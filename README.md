@@ -23,3 +23,7 @@ Codex1天卡号：sk-dEXl3Xo1tQBlyg85pJejlftt4FxB0E1vpcSPwdfQADB8fqeF
 
 
 卡号：sk-oWeZccp48hLZeKdaXpPI4Vnt491No3lBZ05BMnq7ozTkTmEs
+
+
+
+额度查询地址：https://k.aiclaude.click/
